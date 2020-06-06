@@ -1,0 +1,19 @@
+The main idea is to approximate all elements, either target letters, or drawn ones, by splines, because splines can suitably approximate any human
+drawn shape, yet they have a well defined mathematical structure, which captures, besides the shape itself, the way it was drawn (see 3 and 8).
+Cubic Bezier splines can be used for this purpose.
+So, here are the basic steps.
+1. Select the stroke. The stroke represents the area under the fingertip used for drawing. It is, presumably, a circle of a predetermined diameter,
+although any shape will work.
+2. Have all the sample letters represented as cubic Bezier paths. There are several ways to accomplish this: one is to use Adobe Illustrator.
+3. The Bezier path is a collection of its control points. Some of them are overlapping - they represent peculiarities of the shape, such as
+sharp change in direction of the path - mark them and count.  
+4. For every letter, apply the selected stroke to the path, using some existing JS codebase.
+5. Get the outline of the resulting shape: it will be a long closed curve (spline, as well), calculate the area, using existing JS codebase. The outline stays invisible for the user - it is used for the future evaluation of the drawing accuracy.
+6. When the letter is drawn by finger, convert it to Bezier path, using Paper.js, then follow the steps 1 to 5 (the area of the outline is not important in this case).
+7. Get the intersection of two outlines(sample and drawn) and calculate the area of it. Subtract it from the area of sample outline - the smaller it is, the greater is the accuracy.
+8. The drawn letter must have the same number of overlapping control points as the sample. Any deviation means either missing special features
+of the shape, or improper direction of drawing.
+
+
+
+npx react-native run-android
